@@ -1,0 +1,38 @@
+.form-wrap{
+    width: 300px;
+    margin: auto;
+    height: 400px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.body-item{
+    width: 300px;
+    margin: auto;
+    height: 800px;
+    display: flex;
+    
+}
+.form-header{
+    float: left;
+    width: 100%;
+    height: 56px;
+    line-height: 56px;
+    
+    .column{
+        font-size: 16px;
+        float: left; 
+        color: #fff;   
+    }
+    .register{
+        float: right; 
+        font-size: 12px;
+        opacity: .3;
+        color: #fff;
+    }
+}
+
+.form-content{
+    float: left; 
+    width: 100%;
+}
