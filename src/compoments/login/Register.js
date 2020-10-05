@@ -2,14 +2,18 @@ import React, {Component,Fragment} from "react";
 //ANTD
 import { Form, Input, Button, Row,Col} from 'antd';
 import { UserOutlined,LockOutlined,MessageOutlined  } from '@ant-design/icons';
-import {login_password_validate} from "../../utils/validate"
+import {login_password_validate} from "../../utils/validate";
+//导入验证码组件
+import Code from "../../compoment_code/index";
 
 
 class Register extends Component{
 
    constructor(){
        super();
-       this.state={};
+       this.state={
+           username:""
+       };
        this.onFinish= this.onFinish.bind(this);
    }
    
@@ -21,7 +25,19 @@ class Register extends Component{
         this.props.setLogin("login");
     }
 
+    //用户名变化输入处理
+    inputChange = (e) => {
+        let value = e.target.value;
+         
+        console.log(value);
+        this.setState({
+            username: value
+        })
+        
+    }
+
    render(){
+       const {username} =  this.state;
        return(
         <Fragment>
         
@@ -43,7 +59,7 @@ class Register extends Component{
                         { type:"email",message:"请输入正确的邮箱格式"}
                         ]
                     }>
-                    <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="234156743@qq.com" />
+                    <Input onChange = {this.inputChange} value = {username} prefix={<UserOutlined className="site-form-item-icon" />} placeholder="输入注册邮箱" />
                     </Form.Item>
                     <Form.Item name="password" rules={
                         [
@@ -52,7 +68,7 @@ class Register extends Component{
                         ]
                             
                     }>
-                    <Input prefix={<LockOutlined className="site-form-item-icon" />} type="password" placeholder="Password"/>
+                    <Input prefix={<LockOutlined className="site-form-item-icon" />} type="password" placeholder="输入密码"/>
                     </Form.Item>
                     <Form.Item name="confirm" rules={
                         [
@@ -67,12 +83,14 @@ class Register extends Component{
                               }),
                         ]
                     }>
-                     <Input prefix={<LockOutlined className="site-form-item-icon" />} type="password" placeholder="SecondPassword"/>
+                     <Input prefix={<LockOutlined className="site-form-item-icon" />} type="password" placeholder="再次输入密码"/>
                     </Form.Item>
                     <Form.Item name="code" rules={[{ required: true, message: '输入验证码!' }]}>
                      <Row gutter={13}>
                          <Col span={16}><Input prefix={<MessageOutlined  className="site-form-item-icon" />} placeholder="Code" /></Col>
-                         <Col span={8}><Button type="primary" danger block>获取验证码</Button></Col>
+                         <Col span={8}>
+                             <Code username = {username}/>
+                             </Col>
                      </Row>
                     </Form.Item>
                     <Form.Item> 
