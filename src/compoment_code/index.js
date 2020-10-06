@@ -1,4 +1,4 @@
-import React, {Component, Fragment} from "react";
+import React, {Component} from "react";
 //antd
 import {  Button, message} from 'antd';
 
@@ -16,7 +16,8 @@ class Code extends Component{
              username: props.username,
              code_button_disabled: false,
              code_button_loading: false,
-             Code_text: "获取验证码"
+             Code_text: "获取验证码",
+             module: props.module
          }
     }
 
@@ -24,7 +25,8 @@ class Code extends Component{
     //父组件获取
     componentWillReceiveProps(value){
         this.setState({
-            username: value.username
+            username: value.username,
+            module:value.module
         })
     }
     //组件销毁
@@ -51,11 +53,11 @@ class Code extends Component{
         })
         const requestData={
             username: this.state.username,
-            moudle: "login"
+            moudle: this.state.module
         }
         get_code(requestData).then(response => {
             this.countDowm();
-            // message.warning("验证码已发送");
+            message.success(response.data.message);
             
         }).catch(error => {
             message.warning("验证码获取失败");

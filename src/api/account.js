@@ -18,3 +18,12 @@ export function get_code(data){
         data: data  //请求类型为post
     })
 }
+
+// 注册接口
+export function register_request(data){
+    return service.request({
+        url: "/register/",
+        method: "post",
+        data: data, //请求类型为post
+    })
+}

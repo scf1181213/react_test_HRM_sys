@@ -1,6 +1,6 @@
 import React, {Component,Fragment} from "react";
 //ANTD
-import { Form, Input, Button, Row,Col} from 'antd';
+import { Form, Input, Button, Row,Col,message} from 'antd';
 import { UserOutlined,LockOutlined,MessageOutlined } from '@ant-design/icons';
 //验证
 import {login_password_validate} from "../../utils/validate";
@@ -8,6 +8,8 @@ import {login_password_validate} from "../../utils/validate";
 import {login_request} from "../../api/account";
 //导入验证码组件
 import Code from "../../compoment_code/index";
+//加密
+import CryptoJS from 'crypto-js';
 //class 组件
 class Login extends Component{
 
@@ -17,18 +19,35 @@ class Login extends Component{
            username: "",
         //    code_button_disabled: false,
         //    code_button_loading: false,
-           Code_text: "获取验证码"
+           Code_text: "获取验证码",
+           paaaword:"",
+           code:"",
+           module: "login",
+           loading:false
        };
        //react没有数据双向绑定
     } 
    
     getFormValues = (values) => {
-        login_request( ).then(response => {
-            console.log(response)
-        }).catch(error =>{
-
+        this.setState({
+            loading:false
         })
-        console.log('received values of form:',values);
+        const request_data = {
+            username:this.state.username,
+            password:CryptoJS.MD5(this.state.password).toString(),
+            code:this.state.code,
+        }
+        login_request(request_data).then(Response => {
+            const data = Response.data;
+            message.success(data.message);
+            this.setState({
+                loading:false
+            })
+        }).catch(error =>{
+            this.setState({
+                loading:false
+            })
+        })
     }
 
     //登录注册切换
@@ -46,9 +65,17 @@ class Login extends Component{
         })
         
     }
+    inputChangeCode = (e) => {
+        let value = e.target.value;
+        console.log(value);
+        this.setState({
+            code: value
+        })
+        
+    }
 
    render(){
-       const{username} = this.state;
+       const{username,module,code,password,loading} = this.state;
        return(
        <Fragment>
            
@@ -78,19 +105,19 @@ class Login extends Component{
                             { pattern:login_password_validate , message:"请输入字母数字组合不少于6位"}
                         ]
                     }>
-                        <Input prefix={<LockOutlined className="site-form-item-icon" />} type="password" placeholder="Password"/>
+                        <Input value={password} prefix={<LockOutlined className="site-form-item-icon" />} type="password" placeholder="Password"/>
                     </Form.Item>
                     <Form.Item name="code" rules={[{ required: true, message: '输入验证码!' }]}>
                         <Row gutter={13}>
-                            <Col span={16}><Input prefix={<MessageOutlined  className="site-form-item-icon" />} placeholder="Code" /></Col>
+                            <Col span={16}><Input value={code} onChange={this.inputChangeCode} prefix={<MessageOutlined  className="site-form-item-icon" />} placeholder="Code" /></Col>
                             <Col span={8}>
-                                <Code username={username}/>
+                                <Code username={username} module={module}/>
                                 {/* <Button type="danger" loading = {code_button_loading} block disabled={code_button_disabled} onClick={this.getCode}>{Code_text}</Button> */}
                             </Col>
                         </Row>
                     </Form.Item>
                     <Form.Item> 
-                        <Button type="primary" htmlType="submit" className="login-form-button" block >登录</Button>  
+                        <Button loading={loading} type="primary" htmlType="submit" className="login-form-button" block >登录</Button>  
                     </Form.Item>
                     </Form> 
                 </div> 
