@@ -3,7 +3,7 @@ import React, {Component} from "react";
 
 
 
-class UserAdd extends Component{
+class DepartmentList extends Component{
 
     constructor(props){
         super(props);
@@ -11,14 +11,13 @@ class UserAdd extends Component{
 
         };
     }
-   
     render(){
         return(
             <div>
-                用户添加
+                用户列表
             </div>
         )
         }
 }
 
-export default UserAdd;
+export default DepartmentList;

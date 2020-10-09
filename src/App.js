@@ -7,7 +7,7 @@ import Admin from './compoments/admin/Index';
 
 //私有路由组件
 import PrivateRouter from "./compoment_code/private_router/index";
-import UserAdd from './compoments/users/add';
+
 
 
 
@@ -24,6 +24,7 @@ class App extends React.Component{
 
         <Switch>
         <Route exact render={() => <Login/>} path="/"/>
+        {/* 这里千万不能搞精准匹配 */}
         <PrivateRouter component={Admin} path="/admin"/>
         </Switch>
       </BrowserRouter>

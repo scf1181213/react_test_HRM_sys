@@ -2,7 +2,7 @@ const router = [
     {
         title: "控制台",
         icon: "index",
-        key: "/admin"
+        key: "/admin/index"
     },
     {
         title:'用户管理',
@@ -24,15 +24,15 @@ const router = [
     {
         title:'部门管理',
         icon: 'bars',
-        key:'/admin/navigation',
+        key:'/admin/department',
         child: [
             {
-                key:'/admin/navigation/list',
+                key:'/admin/department/list',
                 title:'部门列表',
                 icon:''
             },
             {
-                key:'/admin/navigation/add',
+                key:'/admin/department/add',
                 title:'添加部门',
                 icon:''
             }

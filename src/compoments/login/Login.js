@@ -55,7 +55,7 @@ class Login extends Component{
             })
             setToken(data.token);
             //路由跳转
-            this.props.history.push('/admin/user/list');
+            this.props.history.push('/admin');
         }).catch(error =>{
             this.setState({
                 loading:false
