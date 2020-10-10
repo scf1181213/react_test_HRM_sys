@@ -1,9 +1,8 @@
 import React, {Component} from "react";
 import { Layout} from 'antd';  //antd布局
-import { UserOutlined, LaptopOutlined, NotificationOutlined } from '@ant-design/icons';
 //导入组件
 import Aside from "./admin_components/aside";
-import Header_component from "./admin_components/header";
+import HeaderComponent from "./admin_components/header";
 import Contents from "../../compoment_code/contents/index";
 import "./layout.scss";
 
@@ -38,7 +37,7 @@ class Admin extends Component{
             
             <Layout className="layout-wrap">
                 <Header className="layout-header">
-                        <Header_component toggleCollapsed={this.toggleCollapsed} collapsed={this.state.collapsed} />
+                        <HeaderComponent toggleCollapsed={this.toggleCollapsed} collapsed={this.state.collapsed} />
                     </Header>
                 
                 <Layout>

@@ -1,6 +1,6 @@
-
 import React, {Component} from "react";
-import {Button, Form,Input} from "antd";
+import {Button, Form,Input, InputNumber, message, Radio} from "antd";
+import {departmentAdd}from "../../api/department"; 
 
 
 
@@ -9,22 +9,52 @@ class DepartmentAdd extends Component{
     constructor(props){
         super(props);
         this.state = {
-            formLayout: {span:2},
-            warpperCol: {span : 22}
+            formLayout:{
+                labelcol: {span:2},
+                warppercol: {span : 22}
+            },
+            status: "",
         };
+
+        
+    }
+    onSubmit = (value)=>{
+        if(!value.name) {
+            message.error("部门不能为空");
+            return false;
+        }
+        if(!value.number||value.number===0){
+            message.error("部门人数不能为空");
+            return false;
+        }
+        if(!value.content){
+            message.error("描述不能为空");
+            return false;
+        }
+        departmentAdd(value).then( response => {
+            const data=response.data;
+            message.info(data.message);
+            this.props.history.push('/admin/department/list');
+        }).catch(error =>{
+            message.error("添加失败");
+        })
     }
     render(){
         return(
             <div>
-                <Form onFinish={this.onSubmit} labelCol={this.state.formLayout} wrapperCol={this.state.warpperCol}>
+                <Form onFinish={this.onSubmit} initialValues={{status:true,number:0}} {...this.state.formLayout}>
                     <Form.Item label="部门名称" name="name">
                         <Input/>
                     </Form.Item>
                     <Form.Item label="人员数量" name="number">
-                        <Input/>
+                        <InputNumber/>
                     </Form.Item>
                     <Form.Item label="禁启用" name="status">
-                        <Input/>
+                        <Radio.Group>
+                            <Radio value = {false}>禁用</Radio>
+                            <Radio value = {true}>启用</Radio>
+                        </Radio.Group>
+                        
                     </Form.Item>
                     <Form.Item label="描述" name="content">
                         <Input.TextArea/>

@@ -13,6 +13,7 @@ import Code from "../../compoment_code/code/index";
 import CryptoJS from 'crypto-js';
 //session
 import {setToken} from '../../utils/session';
+import {setTokenCookie,setUsernameCookie} from "../../utils/cookies"
 
 //class 组件
 class Login extends Component{
@@ -43,8 +44,8 @@ class Login extends Component{
             code:this.state.code,
         }
         //登陆验证
-        login_request(request_data).then(Response => {
-            const data = Response.data;
+        login_request(request_data).then(response => {
+            const data = response.data;
             if(data.resCode!==0){
                 message.warning(data.message);
                 return false;
@@ -53,7 +54,9 @@ class Login extends Component{
             this.setState({
                 loading:false
             })
-            setToken(data.token);
+            setToken(data.data.token);
+            setTokenCookie(data.data.token);
+            setUsernameCookie(data.data.username);
             //路由跳转
             this.props.history.push('/admin');
         }).catch(error =>{

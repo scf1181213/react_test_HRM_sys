@@ -5,7 +5,7 @@ import {Image} from "antd";
 import "./aside.scss";
 
 
-class Header_component extends Component{
+class HeaderComponent extends Component{
 
     constructor(props){
         super(props);
@@ -39,4 +39,4 @@ class Header_component extends Component{
         }
 }
 
-export default Header_component;
+export default HeaderComponent;

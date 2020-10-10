@@ -1,6 +1,6 @@
 import React, {Component,Fragment} from "react";
 import { Menu } from 'antd';
-import { UserOutlined, MenuFoldOutlined } from '@ant-design/icons';
+import { UserOutlined } from '@ant-design/icons';
 import Router from "../../../router/index";
 
 import "./aside.scss";
