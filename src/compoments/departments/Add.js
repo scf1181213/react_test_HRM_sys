@@ -55,7 +55,7 @@ class DepartmentAdd extends Component{
         departmentAdd(value).then( response => {
             const data=response.data;
             message.info(data.message);
-            this.props.history.push('/admin/department/list');
+            this.props.history.push('/admin/department/add');
         }).catch(error =>{
             message.error("添加失败");
         })
