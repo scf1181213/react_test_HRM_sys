@@ -1,3 +1,4 @@
+import { message } from "antd";
 import axios from "axios";
 import {getTokenCookie,getUsernameCookie} from "./cookies";
   
@@ -24,10 +25,18 @@ service.interceptors.request.use(function (config) {
 //第三步，响应拦截
 service.interceptors.response.use(function (response) {
     // 对响应数据做点什么
-    return response;
+    const data =response.data;
+    if(data.resCode !==0){
+      message.info(data.message); //全局错误提示
+      return Promise.reject(response);
+    }else{
+      return response;
+    }
+
   }, function (error) {
     // 对响应错误做点什么
-    return Promise.reject(error);
+    const data = error.request
+    return Promise.reject(data);
   });
 
   export default service;

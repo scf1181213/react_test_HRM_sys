@@ -3,3 +3,9 @@
 
 //全局公共样式 
 body { background-color: $color !important; }
+.inline-button{
+    button+button{margin-left:10px; }
+}
+.department-table{
+    padding: 20px 0px 20px 0px;
+}

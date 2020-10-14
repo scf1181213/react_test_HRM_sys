@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {Button, Form,Input, InputNumber, message, Radio} from "antd";
-import {departmentAdd}from "../../api/department"; 
+import {departmentAdd,departmentDetail,departmentEdit}from "../../api/department"; 
 
 
 
@@ -14,10 +14,12 @@ class DepartmentAdd extends Component{
                 warppercol: {span : 22}
             },
             status: "",
+            id:"",
         };
 
         
     }
+    
     onSubmit = (value)=>{
         if(!value.name) {
             message.error("部门不能为空");
@@ -31,6 +33,25 @@ class DepartmentAdd extends Component{
             message.error("描述不能为空");
             return false;
         }
+        //添加或编辑
+        this.state.id? this.onEdit(value):this.onAdd(value);
+        
+    }
+
+    componentDidMount(){
+        
+        if(this.props.location.state){
+            const id=this.props.location.state.id;
+            this.setState({
+                id:id,
+            })
+            this.getDetailed(id);
+        }
+        return false;
+    }
+
+    //添加信息
+    onAdd(value){
         departmentAdd(value).then( response => {
             const data=response.data;
             message.info(data.message);
@@ -39,10 +60,33 @@ class DepartmentAdd extends Component{
             message.error("添加失败");
         })
     }
+
+
+    //编辑信息
+    onEdit(value){
+        const requestData= value;
+        requestData.id=this.state.id;
+        departmentEdit(value).then( response => {
+            const data=response.data;
+            message.info(data.message);
+            this.props.history.push('/admin/department/list');
+        }).catch(error =>{
+            message.error("编辑失败");
+        })
+    }
+
+    //get数据详情
+    getDetailed = (id) =>{
+        if(!this.props.location.state){ return false;}
+        departmentDetail({id:id}).then(response =>{
+            this.refs.form.setFieldsValue(response.data.data)
+        })
+    }
+
     render(){
         return(
             <div>
-                <Form onFinish={this.onSubmit} initialValues={{status:true,number:0}} {...this.state.formLayout}>
+                <Form ref="form" onFinish={this.onSubmit} initialValues={{status:true,number:0}} {...this.state.formLayout}>
                     <Form.Item label="部门名称" name="name">
                         <Input/>
                     </Form.Item>
